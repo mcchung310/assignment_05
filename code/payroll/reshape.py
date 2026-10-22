@@ -33,14 +33,17 @@ def hours_grid(history: pd.DataFrame) -> pd.DataFrame:
     `NaN` — for a week they were not paid. Use `pivot_table` with
     `fill_value=0`.
     """
-    grid = history.pivot_table(
-        index=["employee_id", "display_name"],
-        columns="week_ending",
-        values="hours_worked",
-        aggfunc="sum",
-        fill_value=0,
-    ).reset_index()
-    grid.columns.name = None
+    grid = (
+        history.pivot_table(
+            index=["employee_id", "display_name"],
+            columns="week_ending",
+            values="hours_worked",
+            aggfunc="sum",
+            fill_value=0,
+        )
+        .rename_axis(columns=None)
+        .reset_index()
+    )
     return grid.sort_values("employee_id").reset_index(drop=True)
 
 
@@ -75,12 +78,15 @@ def pay_by_month(history: pd.DataFrame) -> pd.DataFrame:
     This is the CSV the accountant imports, and — with `month` as the x axis —
     exactly the shape `st.bar_chart` draws as one bar per department.
     """
-    monthly = history.pivot_table(
-        index="month",
-        columns="department",
-        values="gross_pay",
-        aggfunc="sum",
-        fill_value=0.0,
-    ).round(2).reset_index()
-    monthly.columns.name = None
-    return monthly
+    return (
+        history.pivot_table(
+            index="month",
+            columns="department",
+            values="gross_pay",
+            aggfunc="sum",
+            fill_value=0.0,
+        )
+        .round(2)
+        .rename_axis(columns=None)
+        .reset_index()
+    )
