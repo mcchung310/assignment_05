@@ -118,6 +118,7 @@ def parse_pay_date(values: pd.Series) -> pd.Series:
     iso = pd.to_datetime(values, format="%Y-%m-%d", errors="coerce")
     return us.fillna(iso)
 
+
 def combine_exports(exports: list) -> pd.DataFrame:
     """Stack a list of weekly exports into one DataFrame — one row per person per week.
 

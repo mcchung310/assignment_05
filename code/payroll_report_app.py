@@ -57,7 +57,9 @@ from payroll import (
 )
 
 st.title("Salt City Coffee — Quarterly Payroll Report")
-st.write("Upload the weekly payroll exports for the period you want to review - old spreadsheet weeks and new app weeks can be mixed. The roster is loaded automatically. ")
+st.write("Upload the weekly payroll exports for the period you want to review"
+         "- old spreadsheet weeks and new app weeks can be mixed."
+         " The roster is loaded automatically. ")
 
 roster = load_employees()
 uploads = st.file_uploader(
