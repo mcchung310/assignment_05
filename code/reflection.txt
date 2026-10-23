@@ -5,3 +5,20 @@ terminology from this assignment (grain, long vs. wide, vectorized .str methods,
 coerce, NaT, pd.to_datetime format, .dt, concat, ignore_index, group by, named
 aggregation, reset_index, pivot_table, fill_value, melt, lineage), and make it
 actionable.
+
+From this assignment, I learned a lot about lineage and grain. Lineage was having every row-level 
+step copying the frame and only adding columns. The raw employeeid stayed next to the 
+clean employee_id, so I can always trace a number back to what was typed. 
+The lineage test flagged my line grid.columns.name = None as overwriting a column. 
+It wasn’t, but I see why the rule exists. Grain changed when I went from one row per person 
+per week to one row per person in summarize_employees. Group by with named aggregation 
+gave me columns with the right names, a lambda counted overtime weeks, and reset_index 
+brought the group keys back as columns. I also got to familiarize myself with long vs wide.
+pivot_table with fill_value=0 turned the history wide, and melt turned it back to long. 
+That round trip was the only way to find the 31 missed weeks, because nobody’s absence 
+is a row in an export.
+
+Where I struggled was I didn’t get at first why I needed .dt.date in the app’s date filter. 
+st.date_input returns plain dates, but pay_date is a full datetime, so I had to convert 
+pay_date with .dt.date before comparing. So for next time, I need to be sure to 
+check the type, not just how the value looks.
